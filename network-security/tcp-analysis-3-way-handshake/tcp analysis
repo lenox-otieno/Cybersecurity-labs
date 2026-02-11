@@ -1,1 +1,144 @@
+# TCP Protocol Analysis: Understanding the Three-Way Handshake
+
+## Objective
+The objective of this lab was to analyze the TCP protocol and understand how the three-way handshake establishes a reliable connection between two hosts. The lab also focused on identifying handshake packets in Wireshark and understanding their relevance in a SOC environment.
+
+---
+
+## Tools Used
+- Wireshark
+- Web browser (to generate TCP traffic)
+- Windows / Linux system
+
+---
+
+## Concepts Covered
+- TCP protocol fundamentals
+- TCP flags (SYN, ACK)
+- Three-way handshake process
+- TCP reliability mechanisms
+- Identifying TCP sessions in Wireshark
+
+---
+
+## TCP Overview
+
+Transmission Control Protocol (TCP) is a connection-oriented protocol that ensures reliable, ordered, and error-checked data delivery between applications.
+
+Key characteristics:
+- Reliable communication
+- Ordered data transmission
+- Error detection
+- Flow control
+- Congestion control
+
+---
+
+## The Three-Way Handshake
+
+The TCP handshake establishes a connection before data transmission begins.
+
+### Step 1: SYN
+- Client sends a SYN (synchronize) packet to the server.
+- Indicates request to start a connection.
+- Contains an initial sequence number (ISN).
+
+### Step 2: SYN-ACK
+- Server responds with a SYN-ACK packet.
+- Acknowledges the client's SYN.
+- Sends its own sequence number.
+
+### Step 3: ACK
+- Client sends an ACK packet.
+- Acknowledges the server’s SYN.
+- Connection is now established.
+
+After this process, data transmission begins.
+
+---
+
+## Methodology
+
+### 1. Started Packet Capture
+- Opened Wireshark.
+- Selected active network interface.
+- Began capturing live traffic.
+
+### 2. Generated TCP Traffic
+- Accessed a website using a web browser.
+- This triggered TCP communication between client and server.
+
+### 3. Applied Display Filter
+Used the following display filter to isolate TCP traffic:
+
+tcp
+
+To focus specifically on SYN packets:
+
+tcp.flags.syn == 1 && tcp.flags.ack == 0
+
+To identify SYN-ACK responses:
+
+tcp.flags.syn == 1 && tcp.flags.ack == 1
+
+
+### 4. Identified the Three-Way Handshake
+- Located SYN packet from client.
+- Located SYN-ACK from server.
+- Located final ACK from client.
+- Verified sequence and acknowledgment numbers.
+
+---
+
+## Screenshots
+Screenshots available in the `/screenshots` directory:
+- Initial SYN packet
+- SYN-ACK response
+- Final ACK packet
+- Full TCP conversation view
+
+---
+
+## Findings
+- Every TCP connection begins with a three-way handshake.
+- Sequence and acknowledgment numbers confirm reliable session establishment.
+- Multiple TCP sessions occur simultaneously during web browsing.
+- TCP flags are critical indicators during traffic analysis.
+
+---
+
+## SOC Use Cases
+
+### 1. Incident Response
+- Identify suspicious connection attempts.
+- Detect abnormal SYN floods or scanning behavior.
+
+### 2. Threat Hunting
+- Hunt for repeated SYN packets without completion (possible scanning activity).
+- Detect unusual connection patterns.
+
+### 3. Malware Analysis
+- Identify command-and-control connections.
+- Analyze suspicious outbound TCP sessions.
+
+### 4. Network Troubleshooting
+- Diagnose failed connections due to incomplete handshakes.
+
+---
+
+## Lessons Learned
+- Understanding TCP flags is essential for packet analysis.
+- The three-way handshake confirms legitimate session establishment.
+- Repeated SYN packets without ACK responses may indicate scanning or attack behavior.
+- TCP analysis is foundational for deeper protocol inspection (HTTP, HTTPS, DNS).
+
+---
+
+## Next Steps
+- Analyze TCP connection termination (FIN, RST flags)
+- Study TCP retransmissions
+- Explore SYN flood behavior in a controlled lab
+
+
+
 
